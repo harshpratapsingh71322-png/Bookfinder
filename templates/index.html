@@ -3,48 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookFinder Pro</title>
+    <title>BookFinder Shopping</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #121212; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 60px 0; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; }
-        .search-card { background: #1e1e1e; border: none; border-radius: 20px; margin-top: -40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .book-card { background: #252525; border-radius: 15px; transition: transform 0.3s; border: 1px solid #333; height: 100%; }
-        .book-card:hover { transform: translateY(-10px); background: #2d2d2d; }
-        .store-badge { width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 10px; }
-        .btn-shop { border-radius: 10px; font-weight: bold; transition: 0.3s; }
-        .price-tag { color: #00ff88; font-size: 1.2rem; font-weight: bold; }
+        body { background-color: #202124; color: #e8eaed; font-family: Arial, sans-serif; }
+        .search-bar { border-radius: 24px; background: #303134; border: 1px solid #5f6368; color: white; padding: 12px 20px; }
+        .product-card { background: #303134; border-radius: 12px; border: 1px solid #3c4043; height: 100%; overflow: hidden; }
+        .product-img { height: 200px; object-fit: contain; background: white; padding: 10px; }
+        .price { font-size: 1.25rem; font-weight: bold; margin: 8px 0; }
+        .store-info { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #bdc1c6; }
+        .special-offer { color: #8ab4f8; font-size: 0.85rem; margin-top: 4px; }
+        .shop-now { border-top: 1px solid #3c4043; padding: 12px; text-align: left; color: #8ab4f8; text-decoration: none; display: block; }
+        .shop-now:hover { background: #3c4043; }
     </style>
 </head>
 <body>
-    <div class="hero-section text-center">
-        <h1 class="display-5 fw-bold">BookFinder</h1>
-        <p class="lead">Check availability across 5+ platforms</p>
-    </div>
-
-    <div class="container mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card search-card p-4">
-                    <form method="POST" class="d-flex gap-2">
-                        <input type="text" name="book_name" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="Search for Class 9, JEE, or any book..." value="{{ book_name }}" required>
-                        <button type="submit" class="btn btn-primary btn-lg px-4">Search</button>
-                    </form>
-                </div>
-            </div>
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <h2 class="mb-4">Google Style Book Search</h2>
+            <form method="POST" class="col-md-6 mx-auto">
+                <input type="text" name="book_name" class="form-control search-bar" placeholder="class 9 Exploration buy" value="{{ book_name }}">
+            </form>
         </div>
 
         {% if results %}
-        <h3 class="mt-5 mb-4 text-center">Available on these Stores</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <h5 class="mb-3">Sponsored products</h5>
+        <div class="row row-cols-2 row-cols-md-3 g-3">
             {% for item in results %}
             <div class="col">
-                <div class="card book-card p-4 text-center">
-                    <div class="store-badge" style="background-color: {{ item.color }};">{{ item.icon }}</div>
-                    <h4 class="mb-2">{{ item.store }}</h4>
-                    <p class="text-secondary small">Compare current prices on the official store.</p>
-                    <div class="price-tag mb-3">Live Price</div>
-                    <a href="{{ item.link }}" target="_blank" class="btn btn-outline-light btn-shop w-100">Shop Now</a>
+                <div class="product-card">
+                    <img src="{{ item.img }}" class="product-img w-100" alt="book">
+                    <div class="p-3">
+                        <div class="text-truncate" style="color: #8ab4f8;">{{ item.title }}</div>
+                        <div class="price">{{ item.price }}</div>
+                        <div class="store-info">
+                            <span style="background: #eee; color:#333; border-radius:50%; width:18px; height:18px; text-align:center; font-size:10px; line-height:18px;">G</span>
+                            {{ item.store }}
+                        </div>
+                        <div class="special-offer">{{ item.special }}</div>
+                    </div>
+                    <a href="{{ item.link }}" target="_blank" class="shop-now">Shop now</a>
                 </div>
             </div>
             {% endfor %}
