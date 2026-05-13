@@ -1,17 +1,31 @@
 from flask import Flask, render_template, request
-import requests
-from bs4 import BeautifulSoup
+import urllib.parse # Link banane ke liye
 
 app = Flask(__name__)
 
-# Fake search results for demo (Real scraping needs specific headers)
 def get_book_data(query):
-    # As a 9th grader, focus on this logic later
-    # Currently returning a list of stores and prices
+    # Encode query taaki spaces '+' ban jayein (e.g. "RD Sharma" -> "RD+Sharma")
+    safe_query = urllib.parse.quote_plus(query)
+    
     return [
-        {"store": "Amazon", "price": "499", "link": "#", "color": "#FF9900"},
-        {"store": "Flipkart", "price": "475", "link": "#", "color": "#2874F0"},
-        {"store": "Bookswagon", "price": "510", "link": "#", "color": "#d02e2e"}
+        {
+            "store": "Amazon", 
+            "price": "Check Price", 
+            "link": f"https://www.amazon.in/s?k={safe_query}", 
+            "color": "#FF9900"
+        },
+        {
+            "store": "Flipkart", 
+            "price": "Check Price", 
+            "link": f"https://www.flipkart.com/search?q={safe_query}", 
+            "color": "#2874F0"
+        },
+        {
+            "store": "Bookswagon", 
+            "price": "Check Price", 
+            "link": f"https://www.bookswagon.com/searchresults.aspx?kw={safe_query}", 
+            "color": "#d02e2e"
+        }
     ]
 
 @app.route("/", methods=["GET", "POST"])
@@ -25,4 +39,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
-  
+    
