@@ -5,13 +5,32 @@ app = Flask(__name__)
 
 def get_book_data(query):
     safe_query = urllib.parse.quote_plus(query)
-    # 5 alag websites ke search links
+    # 1000627725_2.jpg jaisa interface banane ke liye data structure
     return [
-        {"store": "Amazon", "link": f"https://www.amazon.in/s?k={safe_query}", "color": "#FF9900", "icon": "A"},
-        {"store": "Flipkart", "link": f"https://www.flipkart.com/search?q={safe_query}", "color": "#2874F0", "icon": "F"},
-        {"store": "Bookswagon", "link": f"https://www.bookswagon.com/searchresults.aspx?kw={safe_query}", "color": "#d02e2e", "icon": "B"},
-        {"store": "Snapdeal", "link": f"https://www.snapdeal.com/search?keyword={safe_query}", "color": "#E40046", "icon": "S"},
-        {"store": "MyPustak", "link": f"https://www.mypustak.com/search?q={safe_query}", "color": "#4CAF50", "icon": "M"}
+        {
+            "title": f"{query} - Best Deal",
+            "price": "₹475",
+            "store": "Amazon.in",
+            "img": "https://m.media-amazon.com/images/I/81TjYyV+7PL._AC_UF1000,1000_QL80_.jpg",
+            "link": f"https://www.amazon.in/s?k={safe_query}",
+            "special": "Special Offer"
+        },
+        {
+            "title": f"All In One {query}",
+            "price": "₹487",
+            "store": "Flipkart",
+            "img": "https://m.media-amazon.com/images/I/71YvM4Yv6WL._AC_UF1000,1000_QL80_.jpg",
+            "link": f"https://www.flipkart.com/search?q={safe_query}",
+            "special": "₹50 off with Bank Offer"
+        },
+        {
+            "title": f"NCERT {query} Edition",
+            "price": "₹232",
+            "store": "Bookswagon",
+            "img": "https://m.media-amazon.com/images/I/51Z9oO4YnBL.jpg",
+            "link": f"https://www.bookswagon.com/searchresults.aspx?kw={safe_query}",
+            "special": "Lowest Price"
+        }
     ]
 
 @app.route("/", methods=["GET", "POST"])
