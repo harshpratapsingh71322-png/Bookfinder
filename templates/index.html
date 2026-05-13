@@ -3,46 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookFinder Shopping</title>
+    <title>BookFinder Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #202124; color: white; padding-top: 20px; }
-        .product-card { background: #303134; border-radius: 12px; border: 1px solid #3c4043; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-        .img-container { background: white; padding: 15px; height: 120px; display: flex; align-items: center; justify-content: center; }
-        .store-logo { max-height: 80px; max-width: 100%; object-fit: contain; }
-        .card-body { padding: 12px; flex-grow: 1; }
-        .price { color: #8ab4f8; font-size: 1.1rem; font-weight: bold; }
-        .shop-btn { background: #3c4043; color: #8ab4f8; text-decoration: none; padding: 10px; text-align: center; border-top: 1px solid #5f6368; font-weight: bold; }
-        .shop-btn:hover { background: #4c4e52; color: white; }
+        :root { --bg-dark: #202124; --card-bg: #303134; --text-blue: #8ab4f8; }
+        body { background-color: var(--bg-dark); color: #e8eaed; font-family: 'Google Sans', Arial, sans-serif; }
+        
+        /* Search Bar Styling */
+        .search-container { padding: 20px 15px; }
+        .search-input { 
+            background: white; border-radius: 24px; padding: 12px 20px; 
+            border: none; width: 100%; color: #3c4043; font-size: 16px;
+            box-shadow: 0 1px 6px rgba(32,33,36,.28);
+        }
+
+        /* Product Grid */
+        .sponsored-label { padding: 0 15px; font-size: 14px; color: #9aa0a6; margin-bottom: 10px; }
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
+        
+        .card-pro { 
+            background: var(--card-bg); border-radius: 12px; border: 1px solid #3c4043; 
+            overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .img-box { 
+            background: white; height: 140px; display: flex; 
+            align-items: center; justify-content: center; padding: 10px;
+        }
+        .img-box img { max-height: 100%; max-width: 100%; object-fit: contain; }
+
+        .details { padding: 12px; flex-grow: 1; }
+        .store-name { color: #bdc1c6; font-size: 12px; margin-bottom: 4px; }
+        .product-title { color: var(--text-blue); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
+        .price { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
+        .offer { color: #81c995; font-size: 11px; }
+
+        .shop-btn { 
+            padding: 10px; text-align: left; text-decoration: none; 
+            color: var(--text-blue); border-top: 1px solid #3c4043; font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="text-center mb-4">Book Price Comparison</h2>
-        <form method="POST" class="mb-5">
-            <input type="text" name="book_name" class="form-control" style="border-radius: 25px; padding: 12px;" placeholder="Search for any book (e.g. RD Sharma Class 11)" value="{{ book_name }}">
-        </form>
 
-        {% if results %}
-        <div class="row row-cols-2 row-cols-md-3 g-3">
-            {% for item in results %}
-            <div class="col">
-                <div class="product-card">
-                    <div class="img-container">
-                        <img src="{{ item.img }}" class="store-logo" alt="logo">
-                    </div>
-                    <div class="card-body text-center">
-                        <h6 class="text-white">{{ item.store }}</h6>
-                        <div class="price">{{ item.price }}</div>
-                        <small class="text-secondary">{{ item.offer }}</small>
-                    </div>
-                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer" class="shop-btn">Shop now</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+    <div class="search-container">
+        <h2 class="text-center mb-3" style="font-weight: 400;">Google</h2>
+        <form method="POST">
+            <input type="text" name="book_name" class="search-input" placeholder="Search books..." value="{{ book_name }}">
+        </form>
     </div>
+
+    {% if results %}
+    <div class="sponsored-label">Sponsored products</div>
+    <div class="product-grid">
+        {% for item in results %}
+        <div class="card-pro">
+            <div class="img-box">
+                <img src="{{ item.img }}" alt="Store Logo">
+            </div>
+            <div class="details">
+                <div class="product-title">{{ item.store }}</div>
+                <div class="price">Check Price</div>
+                <div class="store-name">Available on {{ item.store }}</div>
+                <div class="offer">{{ item.offer }}</div>
+            </div>
+            <a href="{{ item.link }}" target="_blank" class="shop-btn">Shop now</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
 </body>
-    </html>
-    
+</html>
